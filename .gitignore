@@ -1,0 +1,16 @@
+.idea/
+.rasa/
+actions/
+chat_env/
+data/
+haystack-env/
+hf_cache/
+knowledge_base/
+models/
+rasa-env/
+tests/
+venv/
+*.yml
+New Text Document.txt
+haystack_pipeline.py
+pdf_qa.py

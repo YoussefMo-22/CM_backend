@@ -1,0 +1,16 @@
+attrs<22.2,>=19.3
+numpy<1.25.0,>=1.19.2
+packaging<21.0,>=20.0
+pymongo[srv,tls]<4.4,>=3.8
+scikit-learn<1.2,>=0.22
+aiohttp<3.9.0  # Sometimes Rasa needs specific aiohttp version
+spacy
+torch
+pillow
+
+Django>=4.2,<5.0
+djangorestframework>=3.14.0
+django-cors-headers>=3.14.0
+python-dotenv>=1.0.0
+gunicorn>=20.1.0            # for production server (if using)
+psycopg2-binary>=2.9.7     # if using PostgreSQL; omit if using SQLite

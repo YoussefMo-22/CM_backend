@@ -1,0 +1,30 @@
+# Web app & API
+fastapi==0.110.0
+uvicorn[standard]==0.29.0
+
+# Question Answering & NLP
+farm-haystack[preprocessing]==1.23.0
+
+sentence-transformers==2.6.1
+
+# Web crawling
+beautifulsoup4==4.12.3
+requests==2.31.0
+
+# Image matching
+Pillow==10.3.0
+opencv-python==4.9.0.80
+scikit-learn==1.4.2
+numpy==1.26.4
+
+# File utilities
+python-multipart==0.0.9
+
+torch==2.0.1
+torchvision==0.15.2
+faiss-cpu==1.7.4
+
+
+python-dotenv>=1.0.0
+transformers>=4.31.0
+sentence-transformers>=2.2.2
