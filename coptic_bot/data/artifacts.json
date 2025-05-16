@@ -1,0 +1,19 @@
+[
+  {
+    "id": 1,
+    "register_number": "12488",
+    "name": "Psalter",
+    "description": "Parchment with leather binding",
+    "historical_period": "4th/5th Century",
+    "province": "Al-Mudil, near Beni Suef",
+    "material": [
+      "Leather"
+    ],
+    "image": "artifacts/IMG20240829121445.jpg",
+    "hall": {
+      "number": 17,
+      "name": "The Psalms"
+    },
+    "source_file": "postgres_db"
+  }
+]

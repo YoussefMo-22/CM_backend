@@ -2,11 +2,10 @@
 .rasa/
 actions/
 chat_env/
-data/
 haystack-env/
 hf_cache/
 knowledge_base/
-models/
+__pycache__/
 rasa-env/
 tests/
 venv/
