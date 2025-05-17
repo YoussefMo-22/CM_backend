@@ -49,56 +49,65 @@
 
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from parler.models import TranslatableModel, TranslatedFields
 
 # ------------------ User ------------------
 class User(AbstractUser):
     email = models.EmailField(unique=True)
-    role = models.CharField(max_length=50, choices=[('visitor', 'Visitor'), ('admin', 'Admin')])
-
+    role = models.CharField(max_length=50, choices=[('visitor', 'Visitor'), ('admin', 'Admin')],default='visitor')
     class Meta:
         app_label = 'museum'
 
 # ------------------ Hall ------------------
-class Hall(models.Model):
+class Hall(TranslatableModel):
     number = models.PositiveIntegerField(null=True, blank=True)  # Null for Tube and Churches
-    name = models.CharField(max_length=255, unique=True)
+
+    translations = TranslatedFields(
+        name=models.CharField(max_length=255, unique=False)
+    )
 
     def __str__(self):
-        return f"Hall {self.number or ''}: {self.name}"
+        return f"Hall {self.number or ''}: {self.safe_translation_getter('name', any_language=True)}"
 
 # ------------------ Artifact ------------------
-class Artifact(models.Model):
+class Artifact(TranslatableModel):
     register_number = models.CharField(max_length=100, unique=True)
-    name = models.CharField(max_length=255)
-    description = models.TextField()
-    historical_period = models.CharField(max_length=100)
     hall = models.ForeignKey(Hall, on_delete=models.SET_NULL, null=True, related_name="artifacts")
     image = models.ImageField(upload_to='artifacts/', null=True, blank=True)
-    province = models.CharField(max_length=100, null=True, blank=True)
-    material = models.CharField(max_length=100, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    translations = TranslatedFields(
+        name=models.CharField(max_length=255),
+        description=models.TextField(),
+        historical_period=models.CharField(max_length=100),
+        province = models.CharField(max_length=100, null=True, blank=True),
+        material = models.CharField(max_length=100, null=True, blank=True)
+    )
+
     def __str__(self):
-        return self.name
+        return self.safe_translation_getter('name', any_language=True)
 
 # ------------------ Event & Workshop ------------------
-class Event(models.Model):
+class Event(TranslatableModel):
     EVENT_TYPE_CHOICES = [('event', 'Event'), ('workshop', 'Workshop')]
-    title = models.CharField(max_length=255)
-    description = models.TextField()
     date = models.DateField()
-    location = models.CharField(max_length=255)
     type = models.CharField(max_length=50, choices=EVENT_TYPE_CHOICES)
 
+    translations = TranslatedFields(
+        title=models.CharField(max_length=255),
+        description=models.TextField(),
+        location = models.CharField(max_length=255)
+    )
+
     def __str__(self):
-        return f"{self.title} ({self.type})"
+        return self.safe_translation_getter('title', any_language=True)
 
 class EventBooking(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='bookings')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.user.username} -> {self.event.title}"
+        return f"{self.user.username} -> {self.event.safe_translation_getter('title', any_language=True)}"
 
 # ------------------ Notification ------------------
 class Notification(models.Model):
@@ -106,7 +115,7 @@ class Notification(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Notification for: {self.event.title}"
+        return f"Notification for: {self.event.safe_translation_getter('title', any_language=True)}"
 
 # ------------------ Chat Logs ------------------
 class AIChatbotLog(models.Model):
@@ -134,10 +143,13 @@ class Artifact3DModel(models.Model):
     description = models.TextField(blank=True, null=True)
 
 # ------------------ Programs (Suggested Tours) ------------------
-class Program(models.Model):
-    title = models.CharField(max_length=255)
-    description = models.TextField()
+class Program(TranslatableModel):
     artifacts = models.ManyToManyField(Artifact)
 
+    translations = TranslatedFields(
+        title=models.CharField(max_length=255),
+        description=models.TextField()
+    )
+
     def __str__(self):
-        return self.title
+        return self.safe_translation_getter('title', any_language=True)

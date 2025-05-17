@@ -26,8 +26,13 @@ SECRET_KEY = 'django-insecure-wzb!p40(dvw0gtr1-vb1bp7or1t-*7xin!_u*!yyxnb%wwmlv!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = [
+    '5376-156-193-57-183.ngrok-free.app',
+    'localhost', '127.0.0.1',
+]
+CSRF_TRUSTED_ORIGINS = [
+    "https://5376-156-193-57-183.ngrok-free.app",
+]
 
 DJANGO_SHARED_SECRET = config("DJANGO_SHARED_SECRET")
 
@@ -45,12 +50,13 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',  # JWT Authentication
     'drf_yasg',
     'corsheaders',
+    'parler',
     'museum',  # Make sure your app is listed here
 ]
 AUTH_USER_MODEL = 'museum.User'  # Tells Django to use your custom User model
 JAZZMIN_SETTINGS = { 
     "site_title": "Admin",
-    "copyright": "Youssef-Solutions Ltd",
+    "copyright": "Youssef Mohamed-Solutions Ltd",
     "show_ui_builder": True,
 }
 MIDDLEWARE = [
@@ -127,11 +133,23 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 LANGUAGE_CODE = 'en'
 
-LANGUAGES = [
+LANGUAGES = (
     ('en', 'English'),
     ('ar', 'Arabic'),
     ('fr', 'French'),
-]
+)
+
+PARLER_LANGUAGES = {
+    None: (
+        {'code': 'en'},
+        {'code': 'ar'},
+        {'code': 'fr'},
+    ),
+    'default': {
+        'fallbacks': ['en'],
+        'hide_untranslated': False,
+    }
+}
 
 USE_I18N = True
 LOCALE_PATHS = [

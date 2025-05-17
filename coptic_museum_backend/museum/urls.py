@@ -1,6 +1,6 @@
 # from django.urls import path # type: ignore
 # from .views import get_artifacts, get_events, artifacts_list_create, artifact_detail
-# from .views import register_user, login_user, CustomTokenRefreshView
+from .views import register_user, login_user, CustomTokenRefreshView
 # from .views import rasa_chat
 # from .views import upload_artifact_image
 # from rest_framework import permissions
@@ -72,10 +72,10 @@ from drf_yasg import openapi
 # )
 
 # urlpatterns = [
-#     # Auth
-#     path('auth/register/', register_user, name="register"),
-#     path('auth/login/', login_user, name="login"),
-#     path('auth/token/refresh/', CustomTokenRefreshView.as_view(), name="token_refresh"),
+    # Auth
+    # path('auth/register/', register_user, name="register"),
+    # path('auth/login/', login_user, name="login"),
+    # path('auth/token/refresh/', CustomTokenRefreshView.as_view(), name="token_refresh"),
 
 #     # Artifacts
 #     path('artifacts/', artifacts_list_create, name="artifacts_list_create"),
@@ -132,6 +132,10 @@ router.register('map-data', MapDataViewSet, basename='mapdata')
 urlpatterns = router.urls
 
 urlpatterns += [
+    # Auth
+    path('auth/register/', register_user, name="register"),
+    path('auth/login/', login_user, name="login"),
+    path('auth/token/refresh/', CustomTokenRefreshView.as_view(), name="token_refresh"),
     path('identify-artifact/', identify_artifact, name='identify_artifact'),
     path('ask-chatbot/', ask_chatbot, name='ask_chatbot'),
 ]
